@@ -73,91 +73,90 @@ public class Vigenere {
 		return character;
     }
 
-
-
-    static File encryption(String text, final String key) {
+    static String encryption(String text, final String key) {
         FileOutputStream fileOut = null;
         boolean encrytped = false;
         String encryptedText = "";
 
         while (!encrypted) {
-            if ((len(text) != len(key)) || len(key) < len(text)) {
-                int difference = len(text) - len(key);
+            if ((length(text) != length(key)) || length(key) < length(text)) {
+                int difference = length(text) - length(key);
                 for (int index = 0; index < diff; index ++) {
                         key = key + key.charAt(index);
+                }
+
+                for (int i = 0; i < length(encryptedText); i++){
+                    char c = text.charAt(i);
+                    char k = key.charAt(i);
+                    int textCharInt = charToInt(c);
+                    int keyCharInt = charToInt(k);
+
+                    if ((textCharInt + keyCharInt) > 26) {
+                        int shiftDiff = (textCharInt + keyCharInt) - 26;
+                        encryptedText = encryptedText + intToChar(keyCharInt -1);
+                    }else{
+                        encryptedText = encryptedText + intToChar(textCharInt + keyCharInt);
                     }
                 }
+                encrypted = true;
             }
-            for (int i = 0; i < len(encryptedText); i++){
+        }
+        return encryptedText;
+    }
+
+    public static decryption(String encryptedText, String key){
+        boolean decrypted = false;
+        String decryptedText = "";
+        while (!decrypted){
+            if (length(encryptedText) != lengthgth(key) || lengthgth(key) < lengthgth(encryptedText)){
+                int difference = length(encryptedText) - length(key);
+                for (int i = 0; i < difference; i++){
+                    key = key + key.chartAt(i);
+                }
+            }
+            for (int i = 0; i < length(encryptedText); i++){
                 char c = text.charAt(i);
                 char k = key.charAt(i);
                 int textCharInt = charToInt(c);
                 int keyCharInt = charToInt(k);
-
-                if ((textCharInt + keyCharInt) > 26) {
-                    int difference = (textCharInt + keyCharInt) - 26;
-                    encryptedText = encryptedText + intToChar(keyCharInt -1);
+                if (charToInt(c) - keyCharInt < 0){
+                    int overflow = Math.abs((charToInt(c) - keyCharInt));
+                    decryptedText = decryptedText + intToChar(keyCharInt - 25);
                 }else{
-                    encryptedText = encryptedText + intToChar(textCharInt + keyCharInt);
+                    decryptedText = decryptedText + intToChar(26 - keyCharInt);
                 }
             }
-        encrypted = true;
+            decrypted = true;
+        }
+        return decryptedText;
+
     }
 
 
     public static void main(String []args) throws IOException {
-        FileInputStream fileIn = null;
-        FileInputStream keyIn = null;
-        FileOutputStream out = null;
-
-
         System.out.println("Welcome to Vigenere cypher \n Menu:\n 1 - encryption\n 2 - decryption\n 3 - cryptanalysis (crypt text only");
         Scanner input = new Scanner(System.in);
-
+        exit = false;
         int number;
-        try {
-            number = input.nextInt();
-        } catch (Exception e) {
-            System.out.println("Your input must be one of the menu options!");
-        }
-        if (number == 1) {
-            String encryptedText = "";
-            System.out.println("Encryption.\n Please enter filename to be encrypted\n followed by the filename for the key...");
-            String file = input.next();
-            String key = input.next();
-            
+        while (exit != true){
             try {
-                fileIn = new FileInputStream(file);
-                keyIn = new FileInputStream(key);
-                out = new FileOutputStream("output.txt");
-
-                String encrypted = encryption(file, key);
-                int x;
-                x = (encrypted.read());
-
-                while (x != -1) {
-                    out.write(x);
-                    x = (encrypted.read());
-                }
-
-            }finally {
-                if (fileIn != null) {
-                    fileIn.close();
-                }
-                if (out != null) {
-                    out.close();
-                }
+                number = input.nextInt();
+            } catch (Exception e) {
+                System.out.println("Your input must be one of the menu options!");
             }
-
-        }else if (number == 2) {
-            
-        }else if (number == 3) {
-
-        }else{
-            System.out.prinln("Your input must be one of the menu options!");
+            if (number == 1) {
+                String encryptedText = "";
+                System.out.println("Encryption.\n Please enter filengthame to be encrypted\n followed by the filengthame for the key...");
+                String file = input.next();
+                String key = input.next();
+    
+            }else if (number == 2) {
+    
+            }else if (number == 3) {
+    
+            }else{
+                System.out.prinln("Your input must be one of the menu options!");
+            }
         }
     }
-
-
-
 }
